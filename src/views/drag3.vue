@@ -8,7 +8,7 @@
 		@drop="handleDrop"
 		style="width: 100%; height: 100%"
 	>
-		<div style="position: absolute; z-index: 3">
+		<div style="position: fixed; z-index: 3">
 			<div style="position: absolute; z-index: 3">
 				{{ timeLeft }}
 				<div v-show="!edit">
