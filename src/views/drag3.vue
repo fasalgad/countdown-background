@@ -17,13 +17,24 @@
 					</v-btn>
 				</div>
 				<div v-show="edit">
-					<v-text-field v-model="timeLimit" type="number"> </v-text-field>
-					<v-btn icon @click="play">
-						<v-icon> mdi-check </v-icon>
-					</v-btn>
+					<v-text-field
+						filled
+						v-model="timeLimit"
+						type="number"
+						:append-icon="show4 ? 'mdi-bell' : 'mdi-bell-off'"
+						@click:append="sound"
+						@click:append-outer="play"
+						append-outer-icon="mdi-check"
+						color="white"
+					>
+					</v-text-field>
 				</div>
 			</div>
-			<BaseTimer :time-left="timer"></BaseTimer>
+			<BaseTimer
+				:time-left="timer"
+				:timeLimit="timeLimitNumber"
+				:muted="muted"
+			></BaseTimer>
 		</div>
 		<v-img
 			width="100%"
@@ -35,20 +46,7 @@
 				<v-icon> mdi-close </v-icon>
 			</v-btn>
 		</v-img>
-		<form class="my-form">
-			<input
-				type="file"
-				id="fileElem"
-				multiple
-				accept="image/*"
-				@change="handleFiles($event)"
-			/>
-			<label class="button" for="fileElem">
-        <v-icon>
-          mdi-attachment
-        </v-icon>
-      </label>
-		</form>
+		<form class="my-form"></form>
 	</div>
 </template>
 <script>
@@ -64,6 +62,8 @@ export default {
 			edit: false,
 			imgs: [],
 			imgGuid: [],
+			muted: true,
+			show4: false,
 		};
 	},
 	created() {},
@@ -75,15 +75,21 @@ export default {
 		timeLeft() {
 			if (this.timer == 0) {
 				this.ClearTimer();
-        
 			}
 
 			return "";
+		},
+		timeLimitNumber() {
+			return isNaN(this.timeLimit) ? 0 : parseInt(this.timeLimit);
 		},
 	},
 	methods: {
 		...mapActions(["initiate_timer", "clear_timer"]),
 		...mapMutations(["set_timer", "start_timer"]),
+		sound() {
+			this.show4 = !this.show4;
+			this.muted = !this.show4;
+		},
 		removeImg(img) {
 			// this.imgs.splice(index, 1);
 
@@ -111,7 +117,7 @@ export default {
 			} catch (error) {
 				this.timeLimit = 0;
 			}
-			this.set_timer(this.timeLimit );
+			this.set_timer(this.timeLimit);
 			this.StartTimer();
 		},
 		StartTimer() {
@@ -216,6 +222,14 @@ export default {
 };
 </script>
 <style>
+.v-input__icon button {
+	color: white !important;
+	background: #000000b0 !important;
+	border-radius: 21% !important;
+}
+.v-text-field__slot input {
+	font-weight: bold;
+}
 #drop-area {
 	border: 2px dashed #ccc;
 	border-radius: 20px;

@@ -1,6 +1,8 @@
+
 <!-- BaseTimer.vue -->
 <template>
 	<div class="base-timer">
+		<audio ref="audio" :src="audio" style="display: none"></audio>
 		<svg
 			class="base-timer__svg"
 			viewBox="0 0 100 100"
@@ -9,7 +11,10 @@
 			<g class="base-timer__circle">
 				<circle class="base-timer__path-elapsed" cx="50" cy="50" r="46.5" />
 				<path
-					class="base-timer__path-remaining"
+					id="base-timer-path-remaining"
+					ref="base-timer-path-remaining"
+					:stroke-dasharray="circleDasharray || '283'"
+					:class="`base-timer__path-remaining ${remainingPathColor}`"
 					d="
             M 50, 50
             m -45, 0
@@ -26,22 +31,89 @@
 	</div>
 </template>
 <script>
+/* eslint-disable no-unused-vars */
 var π = 3.14;
+const FULL_DASH_ARRAY = 283;
+const WARNING_THRESHOLD = 10;
+const ALERT_THRESHOLD = 5;
+
+const COLOR_CODES = {
+	info: {
+		color: "green",
+	},
+	warning: {
+		color: "orange",
+		threshold: WARNING_THRESHOLD,
+	},
+	alert: {
+		color: "red",
+		threshold: ALERT_THRESHOLD,
+	},
+};
+
 export default {
 	props: {
 		timeLeft: {
 			type: Number,
 			required: true,
 		},
+		timeLimit: {
+			type: Number,
+			required: true,
+		},
+		muted: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	created() {
+		this.remainingPathColor = COLOR_CODES.info.color;
+		this.audio = require("../assets/audio/Tram Bell 4 - QuickSounds.com.mp3");
 	},
 	data() {
 		return {
 			FULL_DASH_ARRAY: 2 * π * 45,
+			remainingPathColor: null,
+			audio: null,
 		};
+	},
+	methods: {
+		setRemainingPathColor() {
+			try {
+				const { alert, warning, info } = COLOR_CODES;
+				if (this.timeLeft <= alert.threshold) {
+					this.remainingPathColor = alert.color;
+				} else if (this.timeLeft <= warning.threshold) {
+					this.remainingPathColor = warning.color;
+				} else {
+					this.remainingPathColor = COLOR_CODES.info.color;
+				}
+				// eslint-disable-next-line no-empty
+			} catch (error) {}
+		},
+		calculateTimeFraction() {
+			const rawTimeFraction = this.timeLeft;
+			return rawTimeFraction - (1 / this.timeLimit) * (1 - rawTimeFraction);
+		},
+		play() {
+			try {
+				this.$refs.audio.play();
+				this.$refs.audio.volume = 1;
+				// eslint-disable-next-line no-empty
+			} catch (error) {}
+		},
+		stop() {
+			try {
+				this.$refs.audio.pause();
+				this.$refs.audio.load();
+				this.$refs.audio.volume = 0;
+				// eslint-disable-next-line no-empty
+			} catch (error) {}
+		},
 	},
 	computed: {
 		circleDasharray() {
-			return `${(this.timeFraction * this.FULL_DASH_ARRAY).toFixed(0)}`;
+			return `${(this.timeFraction * this.FULL_DASH_ARRAY).toFixed(0)} 283`;
 		},
 		timeFraction() {
 			// Divides time left by the defined time limit.
@@ -57,17 +129,23 @@ export default {
 			if (seconds < 10) {
 				seconds = `0${seconds}`;
 			}
+			if (this.timeLeft == 0 && this.muted == false) {
+				this.play();
+				try {
+					this.$refs.audio.removeAttribute("muted");
+					// eslint-disable-next-line no-empty
+				} catch (error) {}
+			} else {
+				this.stop();
+				try {
+					this.$refs.audio.setAttribute("muted", "muted");
+					// eslint-disable-next-line no-empty
+				} catch (error) {}
+			}
+			this.setRemainingPathColor();
 			// The output in MM:SS format
 			return `${minutes}:${seconds}`;
 		},
-		// // Update the dasharray value as time passes, starting with 283
-		// circleDasharray() {
-		// 	return `${(this.timeFraction * FULL_DASH_ARRAY).toFixed(0)} 283`;
-		// },
-		// timeFraction() {
-		// 	// Divides time left by the defined time limit.
-		// 	return this.timeLeft / this.timeLimit;
-		// },
 	},
 };
 </script>
@@ -101,6 +179,9 @@ export default {
 		justify-content: center;
 		/* Sort of an arbitrary number; adjust to your liking */
 		font-size: 48px;
+		text-shadow: 2px 2px 3px #000, -2px 2px 3px #000, 2px -2px 3px #000,
+			-2px -2px 3px #000;
+		color: #fff;
 	}
 	&__path-remaining {
 		/* Just as thick as the original ring */
@@ -118,6 +199,18 @@ export default {
 	&__svg {
 		/* Flips the svg and makes the animation to move left-to-right*/
 		transform: scaleX(-1);
+	}
+
+	.base-timer__path-remaining.green {
+		stroke: rgb(65, 184, 131);
+	}
+
+	.base-timer__path-remaining.orange {
+		stroke: orange;
+	}
+
+	.base-timer__path-remaining.red {
+		stroke: red;
 	}
 }
 </style>
