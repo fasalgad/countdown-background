@@ -31,14 +31,22 @@
 						</v-text-field>
 					</div>
 				</div>
-				<v-btn icon>
-					<v-icon v-if="showTimer" @click="showTimer = !showTimer">
-						mdi-timer-off
-					</v-icon>
-					<v-icon v-else @click="showTimer = !showTimer">
-						mdi-timer
-					</v-icon>
-				</v-btn>
+				<div>
+					<v-btn icon>
+						<v-icon v-if="showTimer" @click="showTimer = !showTimer">
+							mdi-timer-off
+						</v-icon>
+						<v-icon v-else @click="showTimer = !showTimer"> mdi-timer </v-icon>
+					</v-btn>
+				</div>
+				<div>
+					<v-btn icon>
+						<v-icon v-if="showScreen" @click="exitFullscreen">
+							mdi-fullscreen-exit
+						</v-icon>
+						<v-icon v-else @click="fullscreen"> mdi-fullscreen </v-icon>
+					</v-btn>
+				</div>
 			</div>
 			<BaseTimer
 				v-if="showTimer"
@@ -87,6 +95,7 @@ export default {
 			muted: true,
 			show4: false,
 			showTimer: true,
+			showScreen: false,
 		};
 	},
 	created() {},
@@ -109,6 +118,31 @@ export default {
 	methods: {
 		...mapActions(["initiate_timer", "clear_timer"]),
 		...mapMutations(["set_timer", "start_timer"]),
+		fullscreen() {
+			this.showScreen = !this.showScreen;
+			let elem = this.$refs.droparea;
+			if (elem.requestFullscreen) {
+				elem.requestFullscreen();
+			} else if (elem.webkitRequestFullscreen) {
+				/* Safari */
+				elem.webkitRequestFullscreen();
+			} else if (elem.msRequestFullscreen) {
+				/* IE11 */
+				elem.msRequestFullscreen();
+			}
+		},
+		exitFullscreen() {
+			this.showScreen = !this.showScreen;
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.webkitexitFullscreen) {
+				/* Safari */
+				document.webkitexitFullscreen();
+			} else if (document.msexitFullscreen) {
+				/* IE11 */
+				document.msexitFullscreen();
+			}
+		},
 		sound() {
 			this.show4 = !this.show4;
 			this.muted = !this.show4;
@@ -245,6 +279,20 @@ export default {
 };
 </script>
 <style>
+/* Safari */
+:-webkit-full-screen {
+	background-color: white;
+}
+
+/* IE11 */
+:-ms-fullscreen {
+	background-color: white;
+}
+
+/* Standard syntax */
+:fullscreen {
+	background-color: white;
+}
 .v-input__icon button {
 	color: white !important;
 	background: #000000b0 !important;
