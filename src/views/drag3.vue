@@ -46,7 +46,18 @@
 				<v-icon> mdi-close </v-icon>
 			</v-btn>
 		</v-img>
-		<form class="my-form"></form>
+		<form class="my-form">
+			<input
+				type="file"
+				id="fileElem"
+				multiple
+				accept="image/*"
+				@change="handleFiles($event)"
+			/>
+			<label class="button" for="fileElem">
+				<v-icon> mdi-attachment </v-icon>
+			</label>
+		</form>
 	</div>
 </template>
 <script>
