@@ -11,26 +11,37 @@
 		<div style="position: fixed; z-index: 3">
 			<div style="position: absolute; z-index: 3">
 				{{ timeLeft }}
-				<div v-show="!edit">
-					<v-btn icon>
-						<v-icon @click="btnEdit"> mdi-pencil </v-icon>
-					</v-btn>
+				<div v-show="showTimer">
+					<div v-show="!edit">
+						<v-btn icon>
+							<v-icon @click="btnEdit"> mdi-pencil </v-icon>
+						</v-btn>
+					</div>
+					<div v-show="edit">
+						<v-text-field
+							filled
+							v-model="timeLimit"
+							type="number"
+							:append-icon="show4 ? 'mdi-bell' : 'mdi-bell-off'"
+							@click:append="sound"
+							@click:append-outer="play"
+							append-outer-icon="mdi-check"
+							color="white"
+						>
+						</v-text-field>
+					</div>
 				</div>
-				<div v-show="edit">
-					<v-text-field
-						filled
-						v-model="timeLimit"
-						type="number"
-						:append-icon="show4 ? 'mdi-bell' : 'mdi-bell-off'"
-						@click:append="sound"
-						@click:append-outer="play"
-						append-outer-icon="mdi-check"
-						color="white"
-					>
-					</v-text-field>
-				</div>
+				<v-btn icon>
+					<v-icon v-if="showTimer" @click="showTimer = !showTimer">
+						mdi-timer-off
+					</v-icon>
+					<v-icon v-else @click="showTimer = !showTimer">
+						mdi-timer
+					</v-icon>
+				</v-btn>
 			</div>
 			<BaseTimer
+				v-if="showTimer"
 				:time-left="timer"
 				:timeLimit="timeLimitNumber"
 				:muted="muted"
@@ -75,6 +86,7 @@ export default {
 			imgGuid: [],
 			muted: true,
 			show4: false,
+			showTimer: true,
 		};
 	},
 	created() {},
