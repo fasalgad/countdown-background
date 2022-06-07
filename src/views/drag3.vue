@@ -6,6 +6,7 @@
 		@dragover="highlight"
 		@dragleave="unhighlight"
 		@drop="handleDrop"
+		@fullscreenchange="fullscreenchange"
 		style="width: 100%; height: 100%"
 	>
 		<div style="position: fixed; z-index: 3">
@@ -118,8 +119,14 @@ export default {
 	methods: {
 		...mapActions(["initiate_timer", "clear_timer"]),
 		...mapMutations(["set_timer", "start_timer"]),
+		fullscreenchange() {
+			if (document.fullscreenElement) {
+				this.showScreen = true;
+			} else {
+				this.showScreen = false;
+			}
+		},
 		fullscreen() {
-			this.showScreen = !this.showScreen;
 			let elem = this.$refs.droparea;
 			if (elem.requestFullscreen) {
 				elem.requestFullscreen();
@@ -132,7 +139,6 @@ export default {
 			}
 		},
 		exitFullscreen() {
-			this.showScreen = !this.showScreen;
 			if (document.exitFullscreen) {
 				document.exitFullscreen();
 			} else if (document.webkitexitFullscreen) {
