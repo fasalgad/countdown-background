@@ -4,6 +4,10 @@ import 'vue-file-agent/dist/vue-file-agent.css';
 
 Vue.use(VueFileAgent);
 
+import VueKonva from 'vue-konva';
+
+Vue.use(VueKonva);
+
 import UploadImage from 'vue-upload-image';
 import drag from "v-drag"
 Vue.use(drag, {

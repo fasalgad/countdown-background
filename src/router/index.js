@@ -5,6 +5,12 @@ import Home from '../views/Home.vue'
 Vue.use(VueRouter)
 
 const routes = [{
+        path: '/vuekonva',
+        name: 'vuekonva',
+        component: () =>
+            import ('../views/vuekonva.vue')
+    },
+    {
         path: '/drag',
         name: 'drag',
         component: () =>

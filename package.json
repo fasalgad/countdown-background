@@ -10,9 +10,11 @@
   "dependencies": {
     "@beaubus/single-file-upload-for-vue": "^0.2.4",
     "core-js": "^3.6.5",
+    "konva": "^8.3.9",
     "v-drag": "^3.0.0",
     "vue": "^2.6.11",
     "vue-file-agent": "^1.7.3",
+    "vue-konva": "^3.0.0",
     "vue-router": "^3.2.0",
     "vue-upload-image": "^1.1.5",
     "vuedraggable": "^2.24.3",

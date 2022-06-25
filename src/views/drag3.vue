@@ -48,6 +48,14 @@
 						<v-icon v-else @click="fullscreen"> mdi-fullscreen </v-icon>
 					</v-btn>
 				</div>
+				<div>
+					<v-btn icon>
+						<v-icon v-if="showText" @click="openWindowText">
+							mdi-fullscreen-exit
+						</v-icon>
+						<v-icon v-else @click="openWindowText"> mdi-fullscreen </v-icon>
+					</v-btn>
+				</div>
 			</div>
 			<BaseTimer
 				v-if="showTimer"
@@ -97,6 +105,7 @@ export default {
 			show4: false,
 			showTimer: true,
 			showScreen: false,
+			showText: false,
 		};
 	},
 	created() {},
@@ -119,6 +128,12 @@ export default {
 	methods: {
 		...mapActions(["initiate_timer", "clear_timer"]),
 		...mapMutations(["set_timer", "start_timer"]),
+		openWindowText() {
+			console.log(123);
+			// let newWin = window.open("about:blank", "hello", "width=200,height=200");
+
+			// newWin.document.write(script);
+		},
 		fullscreenchange() {
 			if (document.fullscreenElement) {
 				this.showScreen = true;

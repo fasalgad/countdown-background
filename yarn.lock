@@ -5270,6 +5270,11 @@ klona@^2.0.4:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.5.tgz#d166574d90076395d9963aa7a928fabb8d76afbc"
   integrity sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
 
+konva@^8.3.9:
+  version "8.3.9"
+  resolved "https://registry.yarnpkg.com/konva/-/konva-8.3.9.tgz#9c22d0e75025441f552c9687dc81e873b4876cfc"
+  integrity sha512-vZ7f4Y1LMMOkvfFCGoHt0CoanKdpv81gZC4Q4pnIBO6vHEBx+1KBdH6NR5ORd+HOkGwkRXTVPbFokrYkBSWo1g==
+
 launch-editor-middleware@^2.2.1:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/launch-editor-middleware/-/launch-editor-middleware-2.4.0.tgz#0c3f24608fa69e4ae00d5d1c89f34bf0ba25a8f4"
@@ -8386,6 +8391,11 @@ vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
+
+vue-konva@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/vue-konva/-/vue-konva-3.0.0.tgz#b70664b06a33272c5d22219ddee0318601fd46ff"
+  integrity sha512-3psMFPEyT9f9GjQFLd8BuSA8/DDYeWUHiV7Rd4iZMIIbNsI7esF0E27H9918Ukfz7XygRbV0SLIDS/ebTMJD0g==
 
 "vue-loader-v16@npm:vue-loader@^16.1.0":
   version "16.8.3"
