@@ -116,8 +116,7 @@ export default {
 		let metaTags = [
 			{
 				property: "og:url",
-				content:
-					"http://www.nytimes.com/2015/02/19/arts/international/when-great-minds-dont-think-alike.html",
+				content: "https://dynamic-khapse-21d933.netlify.app",
 			},
 			{
 				property: "og:type",
@@ -131,7 +130,7 @@ export default {
 			{
 				property: "og:image",
 				content:
-					"http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg",
+					"https://niufleex.com/wp-content/uploads/2022/04/mision-vision.jpg",
 			},
 		];
 		metaTags
