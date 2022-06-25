@@ -113,13 +113,45 @@ export default {
 		BaseTimer,
 	},
 	mounted() {
-		document.head.innerHTML =
-			document.head.innerHTML +
-			`<meta property="og:url"                content="http://www.nytimes.com/2015/02/19/arts/international/when-great-minds-dont-think-alike.html" />
-<meta property="og:type"               content="article" />
-<meta property="og:title"              content="When Great Minds Don’t Think Alike" />
-<meta property="og:description"        content="How much does culture influence creative thinking?" />
-<meta property="og:image"              content="http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg" />`;
+		let metaTags = [
+			{
+				property: "og:url",
+				content:
+					"http://www.nytimes.com/2015/02/19/arts/international/when-great-minds-dont-think-alike.html",
+			},
+			{
+				property: "og:type",
+				content: "article",
+			},
+			{ property: "og:title", content: "When Great Minds Don’t Think Alike" },
+			{
+				property: "og:description",
+				content: "How much does culture influence creative thinking?",
+			},
+			{
+				property: "og:image",
+				content:
+					"http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg",
+			},
+		];
+		metaTags
+			.map((tagDef) => {
+				const tag = document.createElement("meta");
+
+				Object.keys(tagDef).forEach((key) => {
+					tag.setAttribute(key, tagDef[key]);
+				});
+				return tag;
+			})
+			.forEach((tag) => document.head.appendChild(tag));
+
+		// document.head.innerHTML =
+		// 	document.head.innerHTML +
+		// 	`	<meta property="og:url" 				content="http://www.nytimes.com/2015/02/19/arts/international/when-great-minds-dont-think-alike.html"    />
+		// 		<meta property="og:type" 				content="article" />
+		// 		<meta property="og:title" 			content="When Great Minds Don’t Think Alike" />
+		// 		<meta property="og:description" content="How much does culture influence creative thinking?" />
+		// 		<meta property="og:image" 			content="http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg" />`;
 	},
 	computed: {
 		...mapState(["timer"]),
